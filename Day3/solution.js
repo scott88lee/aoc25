@@ -1,4 +1,4 @@
-const { input } = require('./data/three');
+const { input } = require('./input');
 const inputArray = input.split('\n');
 
 function test() {

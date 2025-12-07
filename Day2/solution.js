@@ -1,4 +1,4 @@
-const { input } = require('./data/two');
+const { input } = require('./input');
 const inputArray = input.split(',')
 
 function isPattern(str, length) {
