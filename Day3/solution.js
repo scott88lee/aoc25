@@ -1,27 +1,63 @@
 const { input } = require('./input');
 const inputArray = input.split('\n');
 
-function test() {
-  const testInput = inputArray[0];
-  const numArr = testInput.split('').map(Number);
-  console.log('Test Input:', testInput);
-  const { maxNum, index } = getMaxNum(numArr);
-  console.log('Max Num:', maxNum, 'Index:', index);
-  const jolt = getJoltageNumber(testInput);
-  console.log('Joltage Number:', jolt);
+function checkArr(arr, checklength) {
+  // Base case: if checklength is 0 or less, return empty string
+  if (checklength <= 0 || arr.length === 0) {
+    return '';
+  }
+  // Base case: if remaining array is shorter than checklength, return the last checklength digits
+  if (arr.length <= checklength) {
+    return arr.join('');
+  }
+  const { maxNum, position } = getMaxNumber(arr, checklength);
+  if (position + checklength >= arr.length) {
+    return arr.slice(checklength * -1).join('');
+  }
+  return maxNum.toString() + checkArr(arr.slice(position+1), checklength-1);
 }
-test();
+
+function testIt() {
+  const numArr = inputArray[99].split('').map(Number);
+  const str = checkArr(numArr, 12);
+  const ans = Number(str);
+  console.log(`TESTIT-Answer: ${str}, Length: ${str.length}`);
+  console.log(`TESTIT-Answer as Number: ${ans}`);
+}
+testIt();
+
+function getMaxNumber(numberArr, checklength) {
+  let maxNum = 0;
+  let pointer = 0;
+  let position = 0;
+  for (const num of numberArr) {
+    if (num > maxNum) {
+      maxNum = num;
+      position = pointer;
+    }
+    if (pointer + checklength == numberArr.length) {
+      break;
+    }
+    pointer++;
+  }
+  return { maxNum, position };
+}
 
 function processInput(inputArray) {
   let total = 0;
+  let kickStarter = 0;
   for (let input of inputArray) {
     let jolt = getJoltageNumber(input);
     total += jolt;
+
+    // Part 2
+    let ansString = checkArr(input.split('').map(Number), 12);
+    kickStarter += Number(ansString);
   }
-  return total;
+  return { total, kickStarter };
 }
 
-//console.log(processInput(inputArray));
+console.log(processInput(inputArray));
 
 function getMaxNum(numArr) {
   let maxNum = 0;
