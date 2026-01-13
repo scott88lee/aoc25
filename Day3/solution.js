@@ -1,16 +1,22 @@
 const { input } = require('./input');
 const inputArray = input.split('\n');
 
-function test() {
-  const testInput = inputArray[0];
-  const numArr = testInput.split('').map(Number);
-  console.log('Test Input:', testInput);
+const numStr = inputArray[0];
+const numArr = numStr.split('').map(Number);
+
+console.log(numStr);
+
+function getMega(numArr, strLen) {
   const { maxNum, index } = getMaxNum(numArr);
-  console.log('Max Num:', maxNum, 'Index:', index);
-  const jolt = getJoltageNumber(testInput);
-  console.log('Joltage Number:', jolt);
+  console.log(`String length: ${numArr.length}, Max Num: ${maxNum} Index: ${index}`);
+  
+  const tailLen = (numArr.length - index)
+  console.log(tailLen);
+
+  if (tailLen == strLen) return numArr.slice(index)
 }
-test();
+
+getMega(numArr, 12);
 
 function processInput(inputArray) {
   let total = 0;
